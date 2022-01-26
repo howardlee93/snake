@@ -11,17 +11,22 @@ const snake_col = 'lightblue';
 const snake_border = 'darkblue';
 
 let snake =[ // can be done dynamically?
-    {x:200, y:200}, {x:190, y:200}, {x:180, y:200},{x:170, y:200},
-    {x:160, y:200}
+    {x:300, y:300}, 
+    {x:310, y:300}, 
+    {x:320, y:300},
+    {x:330, y:300},
+    {x:340, y:300}
 ];
 
 //movement velocity
 let dx = 10;
-let dy = 10;
+let dy = 0;
 
 //food 
 let food_x;
 let food_y;
+
+let score = 0;
 
 const drawCanvas = (width, height) =>{
     ctx.fillStyle = board_background;
