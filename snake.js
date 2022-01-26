@@ -43,8 +43,67 @@ const moveSnake = () =>{
     snake.pop();
 }
 
-function main(){
+const changeDirection = () =>{
+    const A_LEFT_KEY = 65;
+    const D_RIGHT_KEY = 68;
+    const W_UP_KEY = 87;
+    const S_DOWN_KEY = 83;
 
+    const keyPressed = event.keyCode;
+    const up = dy === -10;
+    const down = dy === 10;
+    const right = dx === 10;
+    const left = dx === -10;
+
+    if (changing_direction) return;
+    changing_direction = true;
+
+    if (keyPressed == A_LEFT_KEY && !right){
+        dx = -10;
+        dy = 0;
+    };
+
+    if (keyPressed == W_UP_KEY && !down){
+        dx = 0;
+        dy = -10;
+    };
+
+    if(keyPressed == D_RIGHT_KEY && !left){
+        dx = 10;
+        dy = 0;
+    };
+
+    if(keyPressed == S_DOWN_KEY && !up){
+        dx = 0;
+        dy = 10;
+    }
+};
+
+const gameEnded =()=>{
+    for (let i = 4; i < snake.length; i++){
+        const has_collided  = snake[i].x == snake[0].x && snake[i].y == snake[0].y;
+        if (has_collided){
+            return true;
+        }
+    }
+
+    const hit_left = snake[0].x < 0;
+    const hit_right = snake[0].x > canvas.width - 10;
+    const hit_top = snake[0].y < 0;
+    const hit_bottom = snake[0].y > canvas.height - 10;
+
+    return hit_left || hit_right || hit_top || hit_bottom
+}
+
+document.addEventListener("keydown", changeDirection);
+
+function main(){
+    if (gameEnded()){
+        alert('game ended');
+        return;
+    };
+
+    changing_direction = false;
     setTimeout(function onTick(){
         drawCanvas(canvas.width, canvas.height);
         moveSnake();
