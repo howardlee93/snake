@@ -19,6 +19,10 @@ let snake =[ // can be done dynamically?
 let dx = 10;
 let dy = 10;
 
+//food 
+let food_x;
+let food_y;
+
 const drawCanvas = (width, height) =>{
     ctx.fillStyle = board_background;
     ctx.strokestyle = board_border;
@@ -41,6 +45,15 @@ const moveSnake = () =>{
     const head = {x: snake[0].x + dx, y:snake[0].y + dy};
     snake.unshift(head);
     snake.pop();
+    const has_eaten = snake[0].x === food_x && snake[0].y === food_y;
+    if (has_eaten){
+        make_food(); 
+        score += 10;
+        document.getElementById('score').innerHTML = score;
+
+    }else{
+        snake.pop();
+    }
 }
 
 const changeDirection = () =>{
@@ -79,6 +92,29 @@ const changeDirection = () =>{
     }
 };
 
+const food = (min, max) =>{
+    return Math.round((Math.random() * (max - min) + min)/ 10) * 10;
+}
+
+const make_food = () =>{
+    food_x = food(0, canvas.width - 10);
+    food_y = food(0, canvas.height -10);
+
+    snake.forEach( (part) => {
+        const has_eaten = part.x = food_x && part.y == food_y;
+        if (has_eaten){
+            make_food();
+        }
+    });
+};
+ 
+const draw_food = () =>{
+    ctx.fillStyle = 'lightgreen';
+    ctx.strokestyle = 'darkgreen';
+    ctx.fillRect(food_x, food_y, 10, 10);
+    ctx.strokeRect(food_x, food_y, 10, 10);
+};
+
 const gameEnded =()=>{
     for (let i = 4; i < snake.length; i++){
         const has_collided  = snake[i].x == snake[0].x && snake[i].y == snake[0].y;
@@ -95,7 +131,6 @@ const gameEnded =()=>{
     return hit_left || hit_right || hit_top || hit_bottom
 }
 
-document.addEventListener("keydown", changeDirection);
 
 function main(){
     if (gameEnded()){
@@ -113,3 +148,6 @@ function main(){
 }
 
 main();
+
+document.addEventListener("keydown", changeDirection);
+
