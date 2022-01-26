@@ -49,7 +49,6 @@ const drawSnake = () =>{
 const moveSnake = () =>{
     const head = {x: snake[0].x + dx, y:snake[0].y + dy};
     snake.unshift(head);
-    snake.pop();
     const has_eaten = snake[0].x === food_x && snake[0].y === food_y;
     if (has_eaten){
         make_food(); 
@@ -146,13 +145,17 @@ function main(){
     changing_direction = false;
     setTimeout(function onTick(){
         drawCanvas(canvas.width, canvas.height);
+        draw_food();
         moveSnake();
         drawSnake();
         main();
     }, 100);
 }
 
-main();
 
 document.addEventListener("keydown", changeDirection);
 
+window.addEventListener('DOMContentLoaded', (event) => {
+	main();
+    make_food();
+});
