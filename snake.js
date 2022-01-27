@@ -10,7 +10,7 @@ const board_background = "white";
 const snake_col = 'lightblue';
 const snake_border = 'darkblue';
 
-let snake =[ // can be done dynamically?
+let snake =[ // ch dynamically?
     {x:300, y:300}, 
     {x:310, y:300}, 
     {x:320, y:300},
@@ -128,9 +128,9 @@ const gameEnded =()=>{
     }
 
     const hit_left = snake[0].x < 0;
-    const hit_right = snake[0].x > canvas.width - 10;
+    const hit_right = snake[0].x > canvas.width ;
     const hit_top = snake[0].y < 0;
-    const hit_bottom = snake[0].y > canvas.height - 10;
+    const hit_bottom = snake[0].y > canvas.height ;
 
     return hit_left || hit_right || hit_top || hit_bottom
 }
